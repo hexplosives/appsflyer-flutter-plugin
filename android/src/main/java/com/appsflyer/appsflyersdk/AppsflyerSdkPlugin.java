@@ -83,7 +83,9 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
     PluginRegistry.NewIntentListener onNewIntentListener = new PluginRegistry.NewIntentListener() {
         @Override
         public boolean onNewIntent(Intent intent) {
-            activity.setIntent(intent);
+            if (activity != null){
+                activity.setIntent(intent);
+            }
             return false;
         }
     };
@@ -761,7 +763,11 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
             instance.setAppInviteOneLink(appInviteOneLink);
         }
 
-        instance.start(activity);
+        if (activity == null){
+            instance.start(mContext);
+        }else {
+            instance.start(activity);
+        }
 
         if (saveCallbacks) {
             saveCallbacks = false;
